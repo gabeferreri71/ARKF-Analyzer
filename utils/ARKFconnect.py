@@ -9,4 +9,3 @@ print(df.columns)
 relevantdf = df[['ticker', 'weight (%)']]
 
 relevantdf.dropna(inplace=True)
-print(relevantdf)
