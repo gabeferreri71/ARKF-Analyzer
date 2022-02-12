@@ -7,5 +7,6 @@ names = os.listdir("./data")
 df = pd.read_csv("data/"+names[0])
 print(df.columns)
 relevantdf = df[['ticker', 'weight (%)']]
-
+relevantdf.ticker.apply(str)
+relevantdf= relevantdf.loc[relevantdf["ticker"]!= "4689"]
 relevantdf.dropna(inplace=True)

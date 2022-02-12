@@ -1,8 +1,14 @@
+#All neccesary imports
 import os
+import datetime
 import ARKFconnect
 import pandas as pd
-import alpaca_trade_api as tradeapi
+from datetime import date
 from dotenv import load_dotenv
+import alpaca_trade_api as tradeapi
+from importlib_metadata import method_cache
+
+#get ticker list
 
 tickers = ARKFconnect.relevantdf['ticker'].to_list()
 
@@ -12,15 +18,16 @@ load_dotenv()
 alpaca_api_key= os.getenv("ALPACA_API_KEY")
 alpaca_secret_key= os.getenv("ALPACA_SECRET_KEY")
 
-
 alpaca = tradeapi.REST(
     alpaca_api_key,
     alpaca_secret_key,
     api_version="v2"
 )
+today= date.today().strftime("%Y-%m-%d")
+year_3= date.today() - datetime.timedelta(days=3*365)
 
-start_date = pd.Timestamp("2019-02-09", tz= "America/New_York").isoformat()
-end_date = pd.Timestamp("2022-02-09", tz= "America/New_York").isoformat()
+start_date = pd.Timestamp(year_3, tz= "America/New_York").isoformat()
+end_date = pd.Timestamp(today, tz= "America/New_York").isoformat()
 timeframe = "1D"
 limit_rows = 1000
 
@@ -34,30 +41,14 @@ prices_df = alpaca.get_barset(
     limit= limit_rows
 ).df
 
-# clean the data
-
-
-#print(prices_df)
-
+# drop all unnecesarry info
 
 prices_df.drop(["open", "high", "low", "volume"], axis=1, level=1, inplace=True)
+prices_df.dropna(axis=1, how="all", inplace=True)
 
-print(prices_df)
+# fill Nan values
 
-
-print(prices_df["4689"])
-
-
-"""
-for row in prices_df["4689"]["close"]:
-
-
-
-# combine the data into a nice dataframe
-
-
-
-
+prices_df= prices_df.fillna(prices_df.rolling(6,min_periods=1).mean())
 
 # save the data in the data folder in sqlite format 
 # ALTHOUGH DO WE ACTUALLY NEED THIS CONSIDERING WE ARE UPDATING the data anyway?
@@ -65,4 +56,3 @@ for row in prices_df["4689"]["close"]:
 # relevant data in the database will make it 20 percent more efficient but will take 80% more time
 
 import sqlConnect
-"""
