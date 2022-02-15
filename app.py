@@ -87,10 +87,11 @@ while True:
     data_for_json = {
         "analysis_ticker": analysis_ticker,
         "fund_ticker": fund_ticker,
-        "stats_ticker": stats_ticker,
-        "stats_SPY": stats_SPY,
-        "stats_fund": stats_fund,
+        "ticker_stats": stats_ticker,
+        "SPY_stats": stats_SPY,
+        "fund_stats": stats_fund,
         "result": result,
         "date of analysis": first_date
     }
+    import dictionary
 
