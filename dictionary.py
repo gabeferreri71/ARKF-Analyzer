@@ -1,4 +1,7 @@
-json_entry = {
+"""
+json_entry ={}
+
+json_entry["ticker"] = {
     "ticker": "AAPL",
     "2/9/2022" : {
         "date": '5',
@@ -18,12 +21,25 @@ for item in json_entry:
         betas.append(json_entry[item]['beta'])
 print(betas)
 
-def pushJson(path, json):
+"""
+
+
+from pathlib import Path
+import json
+
+path = Path("../utils/MCForecastTools.py")
+json_entry = {
+    "Ticker" : ticker,
+    "Date" : time,
+    "Beta" : beta,
+    "Sharpe" : sharpe
+}
+def pushJson(path, json_entry):
     with open(path, 'w') as outfile:
-        json.dump(json, outfile)
+       response = json.load(json_entry, outfile)
 
 
 def pullJson(path):
-    pass
-    # return json
+    json.dump(response)
+  
         
