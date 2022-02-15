@@ -1,16 +1,24 @@
 #All neccesary imports
 import os
 import datetime
-import ARKFconnect
 import pandas as pd
 from datetime import date
 from dotenv import load_dotenv
 import alpaca_trade_api as tradeapi
 from importlib_metadata import method_cache
-
+import os
 #get ticker list
+# requesting manually is beyond my ability to do
 
-tickers = ARKFconnect.relevantdf['ticker'].to_list()
+names = os.listdir("./data")
+#read in data
+df = pd.read_csv("data/"+names[0])
+print(df.columns)
+relevantdf = df[['ticker', 'weight (%)']]
+relevantdf.ticker.apply(str)
+relevantdf= relevantdf.loc[relevantdf["ticker"]!= "4689"]
+relevantdf.dropna(inplace=True)
+tickers = relevantdf['ticker'].to_list()
 
 #connect to alpaca
 
@@ -54,5 +62,3 @@ prices_df= prices_df.fillna(prices_df.rolling(6,min_periods=1).mean())
 # ALTHOUGH DO WE ACTUALLY NEED THIS CONSIDERING WE ARE UPDATING the data anyway?
 # writing all the functions that will check for the presence of 
 # relevant data in the database will make it 20 percent more efficient but will take 80% more time
-
-import sqlConnect
