@@ -57,6 +57,7 @@ prices_df.dropna(axis=1, how="all", inplace=True)
 # fill Nan values
 
 prices_df= prices_df.fillna(prices_df.rolling(6,min_periods=1).mean())
+print(prices_df)
 
 # save the data in the data folder in sqlite format 
 # ALTHOUGH DO WE ACTUALLY NEED THIS CONSIDERING WE ARE UPDATING the data anyway?
