@@ -2,6 +2,7 @@ from matplotlib.pyplot import spy
 import pandas as pd 
 import numpy as np
 import questionary
+import matplotlib.pyplot as plt
 import fire 
 from utils.MCForecastTools import MCSimulation as MCSimulation
 import utils.alpacaConnect as alpacaConnect
@@ -41,6 +42,11 @@ spy_data = alpacaConnect.alpaca.get_barset(
 total_data = pd.concat([ticker_data, spy_data], axis=1)
 total_data.dropna(inplace=True)
 print(total_data.head())
-simulation = MCSimulation(total_data, weights = [0.5, 0.5], num_simulation=1000, num_trading_days=total_data.shape[0])
+simulation = MCSimulation(total_data, weights = [0.5, 0.5], num_simulation=100, num_trading_days=total_data.shape[0])
 simulation.plot_simulation()
-
+plt.plot(simulation.simulated_return)
+plot_title = f"Distribution of Final Cumuluative Returns Across All {simulation.nSim} Simulations"
+plt = simulation.simulated_return.iloc[-1, :].plot(kind='hist', bins=10,density=True,title=plot_title)
+plt.axvline(simulation.confidence_interval.iloc[0], color='r')
+plt.axvline(simulation.confidence_interval.iloc[1], color='r')
+plt.show()
