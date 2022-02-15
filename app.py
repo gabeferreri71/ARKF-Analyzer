@@ -1,3 +1,4 @@
+from cProfile import run
 from matplotlib.pyplot import spy
 import pandas as pd 
 import numpy as np
@@ -9,8 +10,8 @@ import utils.alpacaConnect as alpacaConnect
 tickers = alpacaConnect.tickers
 data = alpacaConnect.prices_df
 
-analysis_ticker = questionary.select("Which ticker from ARKF would you like to analyze?", tickers).ask()
-
+#analysis_ticker = questionary.select("Which ticker from ARKF would you like to analyze?", tickers).ask()
+analysis_ticker = "COIN"
 ticker_data = data[analysis_ticker].dropna()
 # take the first and last date
 first_date = ticker_data.index[0]
@@ -46,7 +47,12 @@ simulation = MCSimulation(total_data, weights = [0.5, 0.5], num_simulation=100, 
 simulation.plot_simulation()
 plt.plot(simulation.simulated_return)
 plot_title = f"Distribution of Final Cumuluative Returns Across All {simulation.nSim} Simulations"
+
+'''
 plt = simulation.simulated_return.iloc[-1, :].plot(kind='hist', bins=10,density=True,title=plot_title)
 plt.axvline(simulation.confidence_interval.iloc[0], color='r')
 plt.axvline(simulation.confidence_interval.iloc[1], color='r')
+'''
 plt.show()
+if __name__ == "__main__":
+    fire.Fire(run)

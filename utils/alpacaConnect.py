@@ -10,9 +10,9 @@ import os
 #get ticker list
 # requesting manually is beyond my ability to do
 
-names = os.listdir("./data")
+#names = os.listdir("./data")
 #read in data
-df = pd.read_csv("data/"+names[0])
+df = pd.read_csv(r"C:\Users\adele\Desktop\CU-VIRT-FIN-PT-12-2021-U-B\Project1_Fintech\data\ARK_FINTECH_INNOVATION_ETF_ARKF_HOLDINGS.csv")
 print(df.columns)
 relevantdf = df[['ticker', 'weight (%)']]
 relevantdf.ticker.apply(str)
