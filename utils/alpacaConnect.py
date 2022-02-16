@@ -12,7 +12,7 @@ import os
 
 #names = os.listdir("./data")
 #read in data
-df = pd.read_csv(r"C:\Users\adele\Desktop\CU-VIRT-FIN-PT-12-2021-U-B\Project1_Fintech\data\ARK_FINTECH_INNOVATION_ETF_ARKF_HOLDINGS.csv")
+df = pd.read_csv(r".\data\ARK_FINTECH_INNOVATION_ETF_ARKF_HOLDINGS.csv")
 print(df.columns)
 relevantdf = df[['ticker', 'weight (%)']]
 relevantdf.ticker.apply(str)
@@ -40,7 +40,15 @@ timeframe = "1D"
 limit_rows = 1000
 
 # loop through tickers and get data 
-
+def get_data(ticker):
+    data = alpaca.get_barset(
+        ticker,
+        timeframe,
+        start= start_date,
+        end= end_date,
+        limit= limit_rows
+    ).df
+    return data
 prices_df = alpaca.get_barset(
     tickers,
     timeframe,
@@ -57,7 +65,7 @@ prices_df.dropna(axis=1, how="all", inplace=True)
 # fill Nan values
 
 prices_df= prices_df.fillna(prices_df.rolling(6,min_periods=1).mean())
-print(prices_df)
+# print(prices_df)
 
 # save the data in the data folder in sqlite format 
 # ALTHOUGH DO WE ACTUALLY NEED THIS CONSIDERING WE ARE UPDATING the data anyway?
