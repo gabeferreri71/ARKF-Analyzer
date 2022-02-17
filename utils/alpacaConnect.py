@@ -57,6 +57,7 @@ prices_df = alpaca.get_barset(
     limit= limit_rows
 ).df
 
+"""
 # drop all unnecesarry info
 
 prices_df.drop(["open", "high", "low", "volume"], axis=1, level=1, inplace=True)
@@ -71,3 +72,4 @@ prices_df= prices_df.fillna(prices_df.rolling(6,min_periods=1).mean())
 # ALTHOUGH DO WE ACTUALLY NEED THIS CONSIDERING WE ARE UPDATING the data anyway?
 # writing all the functions that will check for the presence of 
 # relevant data in the database will make it 20 percent more efficient but will take 80% more time
+"""

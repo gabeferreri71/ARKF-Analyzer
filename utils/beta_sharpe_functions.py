@@ -58,8 +58,6 @@ def sharpe(total_data):
     sharpe_ratios = average_annual_return / annualized_standard_deviation
 
     # Plot the sharpe ratios(optional)
-    print("SUSSASDASD")
-    print(sharpe_ratios)
     return sharpe_ratios
 
 
